@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="author" content="Blair Zasitko">
+<title>Under Toronto | Blair Zasitko</title>
+<meta name="description" content="What is under Toronto's streets: every sewer at its measured depth, every watermain by the year it was laid, 26 years of watermain breaks, the old shoreline, and the boreholes drilled for its highways.">
+<meta property="og:title" content="Under Toronto">
+<meta property="og:description" content="Every sewer at its measured depth, every watermain by age, the old shoreline and the boreholes under the highways.">
+<link rel="canonical" href="https://blairz.ca/under/">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="kit/ember-ui.css?v=1.0.2" rel="stylesheet">
+<link href="css/style.css?v=1" rel="stylesheet">
+</head>
+<body>
+<div id="map"></div>
+<div id="status">Loading</div>
+<div id="ui">
+  <div id="top" class="e-pane" data-glass data-skin="glass">
+    <h1>Under Toronto</h1>
+    <p id="fact"></p>
+  </div>
+  <div id="bottom" class="e-pane" data-glass data-skin="glass">
+    <div id="layers" role="group" aria-label="What to show">
+      <button class="e-btn" type="button" value="sewers" data-stain="#3d8bff" aria-pressed="true">Sewers</button>
+      <button class="e-btn" type="button" value="water" data-stain="#00b899" aria-pressed="false">Water</button>
+      <button class="e-btn" type="button" value="breaks" data-stain="#ff4033" aria-pressed="false">Breaks</button>
+      <button class="e-btn" type="button" value="shore" data-stain="#e0a030" aria-pressed="true">Shore</button>
+      <button class="e-btn" type="button" value="bores" data-stain="#9a9aa6" aria-pressed="true">Bores</button>
+    </div>
+    <div id="key"></div>
+  </div>
+  <section id="sheet" class="e-pane" data-glass data-skin="well" hidden aria-live="polite">
+    <button id="close" class="e-btn e-btn--icon" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+    </button>
+    <div id="sheet-body"></div>
+  </section>
+</div>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="kit/ember-ui.js?v=1.0.2" defer></script>
+<script type="module" src="js/app.js?v=1"></script>
+</body>
+</html>
