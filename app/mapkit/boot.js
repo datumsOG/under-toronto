@@ -53,6 +53,12 @@ export function opening(home) {
   return { start, play };
 }
 
+// It goes back to the page that linked here, at the place it was left (Blair, 2026-10-13:
+// it used to open the home page from the top). The count of history entries when the app
+// loaded says how far back that is, whatever the app has added since.
+const HISTORY_AT_LOAD = history.length;
+function siteBackHref() { try { const r = new URL(document.referrer); if (r.origin === location.origin) return r.href; } catch (e) {} return '/'; }
+function siteBack(e) { if (HISTORY_AT_LOAD > 1) { e.preventDefault(); history.go(HISTORY_AT_LOAD - history.length - 1); } }
 // Reached from the home page inside its home-screen icon there is no browser bar, so the app
 // shows a way back. Only then. Returns the element, so the app can lay out around it.
 export function backButton(parent) {
@@ -61,9 +67,10 @@ export function backButton(parent) {
   try { const r = new URL(document.referrer); fromSite = r.origin === location.origin && !r.pathname.startsWith(new URL('.', location.href).pathname); } catch (e) {}
   if (!(standalone && fromSite) && !/[?&]standalone=1\b/.test(location.search)) return null;
   const a = document.createElement('a');
-  a.id = 'site-back'; a.className = 'e-btn e-btn--icon'; a.href = '/'; a.setAttribute('aria-label', 'Back to blairz.ca');
+  a.id = 'site-back'; a.className = 'e-btn e-btn--icon'; a.href = siteBackHref(); a.setAttribute('aria-label', 'Back');
   a.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4.5L7 10l5.5 5.5"/></svg>';
   parent.appendChild(a);
+  a.addEventListener('click', siteBack);
   document.body.classList.add('has-site-back');
   return a;
 }

@@ -8,7 +8,7 @@
 // The first app written on the map kit's parts (mapkit/): the map defaults, load-then-show,
 // the opening move and the back button come from boot.js; the underground drawing is
 // packed.js. This file is what a recipe would say: which data, how it is drawn, the camera.
-import { createMap, styleReady, drawn, opening, backButton, selectOnFocus } from '../mapkit/boot.js?v=2';
+import { createMap, styleReady, drawn, opening, backButton, selectOnFocus } from '../mapkit/boot.js?v=3';
 import { PackedLayer } from '../mapkit/packed.js?v=3';
 import { restyleMap, STYLE_URL } from './mapstyle.js?v=1';
 import { createGlassLayer } from '../kit/glass/host-maplibre.js?v=1.0.2';

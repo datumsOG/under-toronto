@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """build — reduce the city's files in data/raw/ to the small binaries the app draws.
 
-    (internal path) (internal path)
+    .venv/bin/python build/build.py
 
 Out (app/data/):
   sewers.bin   line segments: every gravity sewer, with its depth below the street
@@ -192,13 +192,13 @@ print('shoreline maps:', dict(sorted(layers.items())))
 
 # ---------------------------------------------------------------- borehole reports
 mine = set()
-hits = Path('(internal path)')
+hits = Path('geocres/HITS.txt')
 if hits.exists():
     for line in hits.read_text(errors='replace').split('\n'):
         if line.startswith('===== HIT '):
             mine.add(line.split()[2])
 bores = []
-src = json.load(open('(internal path)', encoding='latin-1'))
+src = json.load(open('geocres/index.geojson', encoding='latin-1'))
 for ft in src['features']:
     lon, lat = ft['geometry']['coordinates'][:2]
     p = ft['properties']
