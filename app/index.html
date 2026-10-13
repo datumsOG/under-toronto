@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#000000">
 <meta name="author" content="Blair Zasitko">
 <title>Under Toronto | Blair Zasitko</title>
-<meta name="description" content="What is under Toronto's streets: every sewer at its measured depth, every watermain by the year it was laid, 26 years of watermain breaks, the old shoreline, and the boreholes drilled for its highways.">
+<meta name="description" content="What is under Toronto's streets: every sewer at its measured depth, every watermain by the year it was laid, 26 years of watermain breaks, and the boreholes drilled for its highways.">
 <meta property="og:title" content="Under Toronto">
-<meta property="og:description" content="Every sewer at its measured depth, every watermain by age, the old shoreline and the boreholes under the highways.">
+<meta property="og:description" content="Every sewer at its measured depth, every watermain by age, and the boreholes under the highways.">
 <link rel="canonical" href="https://blairz.ca/under/">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
@@ -20,16 +20,17 @@
 <div id="map"></div>
 <div id="status">Loading</div>
 <div id="ui">
-  <div id="top" class="e-pane" data-glass data-skin="glass">
-    <h1>Under Toronto</h1>
-    <p id="fact"></p>
+  <div id="topleft">
+    <div id="top" class="e-pane" data-glass data-skin="glass">
+      <h1>Under Toronto</h1>
+      <p id="fact"></p>
+    </div>
   </div>
   <div id="bottom" class="e-pane" data-glass data-skin="glass">
     <div id="layers" role="group" aria-label="What to show">
       <button class="e-btn" type="button" value="sewers" data-stain="#3d8bff" aria-pressed="true">Sewers</button>
       <button class="e-btn" type="button" value="water" data-stain="#00b899" aria-pressed="false">Water</button>
       <button class="e-btn" type="button" value="breaks" data-stain="#ff4033" aria-pressed="false">Breaks</button>
-      <button class="e-btn" type="button" value="shore" data-stain="#e0a030" aria-pressed="true">Shore</button>
       <button class="e-btn" type="button" value="bores" data-stain="#9a9aa6" aria-pressed="true">Bores</button>
     </div>
     <div id="key"></div>

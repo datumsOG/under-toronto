@@ -4,7 +4,7 @@ By [Blair Zasitko](https://blairz.ca)
 
 **Open it: https://blairz.ca/under/** (made for a phone)
 
-<img src="docs/under.jpg" alt="Downtown Toronto with glowing lines under the streets: sewers in blue and violet, watermain breaks in red, the old shoreline in gold" width="320">
+<img src="docs/under.jpg" alt="Downtown Toronto with glowing lines under the streets: sewers in blue and violet, and a line down from every maintenance hole" width="320">
 
 What is under the streets, drawn where it is and as deep as it is.
 
@@ -13,7 +13,6 @@ What is under the streets, drawn where it is and as deep as it is.
 | **Sewers** (169,592) | Depth. The city publishes the top elevation of each maintenance hole and the invert elevation of each pipe; one minus the other is how deep the pipe is. Measured for 116,244 pipes; the rest get the median for their kind. Drawn 8 times deeper so it shows |
 | **Watermains** (49,418) | The year each was laid. The oldest in service is from 1870 |
 | **Breaks** (35,465) | Every watermain break from 1990 to 2016 |
-| **Shore** | The lake's edge on twelve maps from 1818 to 1910. Everything south of it is fill |
 | **Bores** (916) | Foundation reports from the Ontario Ministry of Transportation, each linked to the ministry's page for it |
 
 ## How it works
@@ -39,7 +38,7 @@ coding agents (Claude Code).
 
 ## Data and credits
 
-- Sewers, maintenance holes, watermains, breaks, shoreline: City of Toronto Open Data, under the
+- Sewers, maintenance holes, watermains, breaks: City of Toronto Open Data, under the
   [Open Government Licence – Toronto](https://open.toronto.ca/open-data-license/).
 - Foundation reports: Ontario Ministry of Transportation.
 - Map: [OpenFreeMap](https://openfreemap.org/), © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors.

@@ -21,17 +21,20 @@ body:not(.lg) .e-pane[data-glass] { background: var(--e-pane); -webkit-backdrop-
 #ui > * { pointer-events: auto; }
 [hidden] { display: none !important; }
 
-#top { position: absolute; top: calc(var(--safe-top) + 12px); left: calc(var(--safe-left) + 12px); max-width: min(22rem, calc(100vw - 84px)); }
+/* The top-left stack: the title pane, then (only when the app has one) the way back to the
+   site under it. The back button always goes below what is already there (Blair, 2026-10-12). */
+#topleft { position: absolute; top: calc(var(--safe-top) + 12px); left: calc(var(--safe-left) + 12px); display: flex; flex-direction: column;
+  align-items: flex-start; gap: 10px; pointer-events: none; }
+#topleft > * { pointer-events: auto; }
+#top { max-width: min(22rem, calc(100vw - 84px)); }
 #top h1 { margin: 0; font: 800 22px/1.15 var(--e-font); letter-spacing: -0.01em; }
 #top p { margin: 4px 0 0; font: 400 14px/1.35 var(--e-font); color: var(--e-ink-2); min-height: 2.7em; }
-body.has-site-back #top { top: calc(var(--safe-top) + 12px + 44px + 10px); }
-#site-back { position: absolute; top: calc(var(--safe-top) + 12px); left: calc(var(--safe-left) + 12px); z-index: 5; }
 
 #bottom { position: absolute; left: calc(var(--safe-left) + 12px); right: calc(var(--safe-right) + 12px); bottom: calc(var(--safe-bottom) + 12px);
   max-width: 560px; margin: 0 auto; display: grid; row-gap: 12px; }
-/* Five independent switches. One that is on is stained the colour of what it shows (the
+/* Four independent switches. One that is on is stained the colour of what it shows (the
    kit's stained glass, data-tint, set in js/app.js); without the shader it is a lit well. */
-#layers { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: 6px; }
+#layers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 6px; }
 #layers button { padding: 0 2px; font-size: 14px; min-width: 0; }
 body:not(.lg) #layers button[aria-pressed="true"], #layers button[aria-pressed="true"][data-glass-off] { background: rgba(255, 255, 255, 0.28); }
 #key { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 400 13px/1.3 var(--e-font); color: var(--e-ink-2); min-height: 1.3em; }
