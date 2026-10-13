@@ -47,6 +47,7 @@ uniform vec2 u_view;       // drawing buffer, px
 uniform float u_wpx;       // the ribbon's width in px where the camera is looking
 uniform float u_c2c;       // clip w where the camera is looking: width scales by u_c2c / w
 uniform float u_minpx;
+uniform float u_far;       // 0 at street zoom, 1 with the whole city in view
 uniform float u_halo;      // halo reach, in ribbon widths
 ${COLOUR}
 varying vec4 v_col;
@@ -63,12 +64,18 @@ void main() {
   vec2 nrm = len > 1e-4 ? vec2(-dir.y, dir.x) / len : vec2(1.0, 0.0);
   vec4 p = mix(p0, p1, a_c.x);
   float big = mod(floor(a_flags / 4.0), 2.0), strong = mod(a_flags, 2.0);
-  float w = u_wpx * (u_c2c / p.w) * (1.0 + 1.2 * max(big, strong));
-  float fade = min(1.0, w / u_minpx);            // thinner than the floor: hold the width, dim instead
+  float trunk = max(big, strong);
+  float w = u_wpx * (u_c2c / p.w) * (1.0 + 1.2 * trunk);
+  // Far out a real width is a small fraction of a pixel. Dimming by that fraction made the
+  // whole network vanish, so the floor works like a road map's: the width a line is held
+  // at grows as the camera pulls back, more for trunks than for local pipes, and the dimming
+  // follows the square root of the shortfall and stops at a level that can still be seen.
+  float minpx = u_minpx * (1.0 + u_far * (0.25 + 0.85 * trunk));
+  float fade = max(sqrt(min(1.0, w / minpx)), u_far * (0.16 + 0.44 * trunk));
   // The halo grows in as the ribbon gets wider than the floor. Far away, where the whole city
   // is hairlines, there is none: it would be millions of pixels of overdraw for no light.
-  float halo = mix(1.0, u_halo, clamp((w / u_minpx - 1.0) * 0.5, 0.0, 1.0));
-  w = max(w, u_minpx);
+  float halo = mix(1.0, u_halo, clamp((w / minpx - 1.0) * 0.5, 0.0, 1.0));
+  w = max(w, minpx);
   float reach = w * 0.5 * halo + 1.0;
   p.xy += nrm * a_c.y * reach / (u_view * 0.5) * p.w;
   gl_Position = p;
@@ -106,7 +113,7 @@ precision mediump float;
 varying vec4 v_col;
 void main() { vec2 d = gl_PointCoord - 0.5; float r = dot(d, d); if (r > 0.25) discard; gl_FragColor = v_col * (1.0 - r * 3.0); }`;
 
-const UNIFORMS = ['u_m', 'u_mode', 'u_depth', 'u_exag', 'u_alpha', 'u_size', 'u_years', 'u_pal', 'u_old', 'u_new', 'u_view', 'u_wpx', 'u_c2c', 'u_minpx', 'u_halo'];
+const UNIFORMS = ['u_m', 'u_mode', 'u_depth', 'u_exag', 'u_alpha', 'u_size', 'u_years', 'u_pal', 'u_old', 'u_new', 'u_view', 'u_wpx', 'u_c2c', 'u_minpx', 'u_far', 'u_halo'];
 
 export class PackedLayer {
   constructor({ id, box, metresPerUnit }) {
@@ -178,7 +185,7 @@ export class PackedLayer {
       gl.uniformMatrix4fv(U.u_m, false, o);
       gl.uniform1f(U.u_exag, this.exag);
       gl.uniform3fv(U.u_pal, pal);
-      gl.uniform1f(U.u_alpha, s.alpha * (0.2 + 0.8 * k * k));
+      gl.uniform1f(U.u_alpha, s.alpha * (0.34 + 0.66 * k * k));
       gl.uniform1f(U.u_mode, s.mode); gl.uniform1f(U.u_depth, s.depth);
       gl.uniform2f(U.u_years, s.years[0], s.years[1]);
       gl.uniform3fv(U.u_old, s.oldC); gl.uniform3fv(U.u_new, s.newC);
@@ -198,7 +205,7 @@ export class PackedLayer {
       attr(A.a_xy1, 2, gl.UNSIGNED_SHORT, true, 16, 8, 1); attr(A.a_val1, 1, gl.UNSIGNED_SHORT, false, 16, 12, 1);
       gl.uniform2f(U.u_view, gl.drawingBufferWidth, gl.drawingBufferHeight);
       gl.uniform1f(U.u_wpx, s.width * pxPerMetre); gl.uniform1f(U.u_c2c, c2c);
-      gl.uniform1f(U.u_minpx, 1.1 * dpr); gl.uniform1f(U.u_halo, s.halo);
+      gl.uniform1f(U.u_minpx, 1.1 * dpr); gl.uniform1f(U.u_far, 1 - k); gl.uniform1f(U.u_halo, s.halo);
       this.drawInstanced(s.count);
     }
     for (const loc of used) this.divisor(loc, 0);            // leave the context as MapLibre expects it
